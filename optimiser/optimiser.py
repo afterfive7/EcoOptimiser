@@ -51,13 +51,13 @@ def optimise_upgrades(territories, upgrades):
         res_prod_sum[res] = solver.Sum(prod_sum)
         res_cost_sum[res] = solver.Sum(cost_sum)
         solver.Add(res_prod_sum[res] >= res_cost_sum[res])
-        # solver.Add(res_prod_sum[res] <= solver.Sum([res_cost_sum[res], 70000]))
+        # solver.Add(res_prod_sum[res] <= solver.Sum([res_cost_sum[res], 100000]))
 
 
 
     # Objective: maximize total boosted resource production
     tot_sum = []
-    weights = {'emeralds':0, "ore":9, "crops":15, "fish":12, "wood":8}
+    weights = {'emeralds':0, "ore":8, "crops":15, "fish":12, "wood":7}
     for res in resources:
         tot_sum.append(res_prod_sum[res]*weights[res] - res_cost_sum[res]*weights[res])
     objective = solver.Sum(tot_sum)

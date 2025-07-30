@@ -1,0 +1,33 @@
+{
+  "Emeralds": {
+    "costs" : [
+      [{}, {"ore": 2000}, {"ore": 8000}, {"ore": 32000}],
+      [{"crops": 2000}, {"crops": 2000, "ore": 2000}, {"crops": 2000, "ore": 8000}, {"crops": 2000, "ore": 32000}],
+      [{"crops": 8000}, {"crops": 8000, "ore": 2000}, {"crops": 8000, "ore": 8000}, {"crops": 8000, "ore": 32000}],
+      [{"crops": 32000}, {"crops": 32000, "ore": 2000}, {"crops": 32000, "ore": 8000}, {"crops": 32000, "ore": 32000}]
+    ],
+    "bonus_resources": ["emeralds"],
+    "bonus": [
+      [0, 0.35, 1.0, 3.0],
+      [0.3333333333333333, 0.8, 1.6666666666666665, 4.333333333333333],
+      [1.0, 1.7, 3.0, 7.0],
+      [3.0, 4.4, 7.0, 15.0]
+    ]
+  },
+  "Resources": {
+    "resource": "emeralds",
+    "costs" : [
+      [{}, {"emeralds": 6000}, {"emeralds": 12000}, {"emeralds": 24000}, {"emeralds": 48000}, {"emeralds": 96000}, {"emeralds": 192000}],
+      [{"emeralds": 2000}, {"emeralds": 8000}, {"emeralds": 14000}, {"emeralds": 26000}, {"emeralds": 50000}, {"emeralds": 98000}, {"emeralds": 194000}],
+      [{"emeralds": 8000}, {"emeralds": 14000}, {"emeralds": 20000}, {"emeralds": 32000}, {"emeralds": 56000}, {"emeralds": 104000}, {"emeralds": 200000}],
+      [{"emeralds": 32000}, {"emeralds": 38000}, {"emeralds": 44000}, {"emeralds": 56000}, {"emeralds": 80000}, {"emeralds": 128000}, {"emeralds": 224000}]
+    ],
+    "bonus_resources": ["ore", "crops", "fish", "wood"],
+    "bonus": [
+      [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0],
+      [0.3333333333333333, 1.0, 1.6666666666666665, 2.333333333333333, 3.0, 3.666666666666666, 4.333333333333333],
+      [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0],
+      [3.0, 5.0, 7.0, 9.0, 11.0, 13.0, 15.0]
+    ]
+  }
+}
