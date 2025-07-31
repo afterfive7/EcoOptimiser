@@ -5,7 +5,7 @@ from datetime import datetime, timezone, timedelta
 from collections import deque
 
 resources = ["emeralds", "ore", "wood", "fish", "crops"]
-with open('resource_upgrades.json') as f:
+with open('data/resource_upgrades.json') as f:
     upgrades = json.load(f)
 
 def get_guild_territories(guild_prefix: str, hq: str):
@@ -25,7 +25,7 @@ def get_guild_territories(guild_prefix: str, hq: str):
     return territories
 
 def load_territories(territories, hq):
-    with open('territories.json') as f:
+    with open('data/territories.json') as f:
         d = json.load(f)
 
     d = territory_connections(hq, d)

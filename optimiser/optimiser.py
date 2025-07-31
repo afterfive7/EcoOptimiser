@@ -4,9 +4,9 @@ import json
 
 resources = ['emeralds'] + ["ore", "wood", "fish", "crops"]
 
-with open('resource_upgrades.json') as f:
+with open('data/resource_upgrades.json') as f:
     upgrades = json.load(f)
-with open('upgrades.json') as f:
+with open('data/upgrades.json') as f:
     upgrade_costs = json.load(f)
 
 def optimise_upgrades(territories):
