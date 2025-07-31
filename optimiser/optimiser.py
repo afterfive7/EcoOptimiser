@@ -27,30 +27,51 @@ def optimise_upgrades(territories, upgrades):
     # Constraint: total emerald cost must be within budget
     # each resource cost < prod
     # add defense costs etc later
+    res_prod = {res:[] for res in resources}
+    res_cost = {res:[] for res in resources}
+    for t, territory in territories.items():
+        for res in resources:
+            p = territory['production'][res]
+            if p > 0:
+                res_prod[res].append(p)
+            for u, upgrade in upgrades.items():
+                for r in range(nk[u][0]):
+                    for e in range(nk[u][1]):
+                        if res in upgrade["bonus_resources"]: # Upgrade bonusses
+                            bonus = int(p*upgrade['bonus'][r][e])
+                            if bonus > 0:
+                                res_prod[res].append(bonus*x[t, u, r, e])
+                        if res in upgrade['costs'][r][e]: # Upgrade costs
+                            cost = upgrade['costs'][r][e][res]
+                            if cost > 0:
+                                res_cost[res].append(cost*x[t, u, r, e])
+
+        # Calculate caused by storage requirements
+        pem = territory['production']['emeralds']
+        pmax = max(territory['production'][res] for res in resources[1::])
+
+        for r in range(nk['Emeralds'][0]):
+            for e in range(nk['Emeralds'][1]):
+                bonus = int(pem*upgrades['Emeralds']['bonus'][r][e])
+                # ignore additional storage requirement from emerald usage. This seems to complex
+                storage_cost = get_storage_cost(pem + bonus, em=True, hq=territory['hq'])
+                if storage_cost > 0:
+                    res_cost['wood'].append(storage_cost*x[t, 'Emeralds', r, e])
+
+        for r in range(nk['Resources'][0]):
+            for e in range(nk['Resources'][1]):
+                bonus = int(pmax*upgrades['Resources']['bonus'][r][e])
+                storage_cost = get_storage_cost(pmax + bonus, hq=territory['hq'])
+                if storage_cost > 0:
+                    res_cost['emeralds'].append(storage_cost*x[t, 'Resources', r, e])
+
+
     res_prod_sum = {}
     res_cost_sum = {}
     for res in resources:
-        prod_sum = []
-        cost_sum = [50000]
-        if res == "emeralds": cost_sum = [75000]
-        for t, territory in territories.items():
-            p = territory['production'][res]
-            prod_sum.append(p)
-            for u, upgrade in upgrades.items():
-                if res in upgrade["bonus_resources"]:
-                    for r in range(nk[u][0]):
-                        for e in range(nk[u][1]):
-                            bonus = upgrade['bonus'][r][e]
-                            prod_sum.append(int(p*bonus)*x[t, u, r, e])
-                for r in range(nk[u][0]):
-                    for e in range(nk[u][1]):
-                        if res in upgrade['costs'][r][e]:
-                            cost = upgrade['costs'][r][e][res]
-                            cost_sum.append(cost*x[t, u, r, e])
-
-        res_prod_sum[res] = solver.Sum(prod_sum)
-        res_cost_sum[res] = solver.Sum(cost_sum)
-        solver.Add(res_prod_sum[res] >= res_cost_sum[res])
+        res_prod_sum[res] = solver.Sum(res_prod[res])
+        res_cost_sum[res] = solver.Sum(res_cost[res])
+        solver.Add(res_prod_sum[res] >= res_cost_sum[res] + 25000)
         # solver.Add(res_prod_sum[res] <= solver.Sum([res_cost_sum[res], 100000]))
 
 
@@ -61,6 +82,8 @@ def optimise_upgrades(territories, upgrades):
     for res in resources:
         tot_sum.append(res_prod_sum[res]*weights[res] - res_cost_sum[res]*weights[res])
     objective = solver.Sum(tot_sum)
+
+    print("starting optimization")
 
     solver.Maximize(objective)
 
@@ -82,3 +105,31 @@ def optimise_upgrades(territories, upgrades):
         print("❌ No optimal solution found.")
 
     return territories
+
+
+# strorage upgrades:
+# Res: 0:0, 400:1, 800:3, 2000:7, 5000:14, 16000:33, 48000:79
+# Ems: 0:0, 200:1, 400:3, 1000:7, 2500:14, 8000:33, 24000:79
+# HQ storage is 5000, 1500. Other is 3000, 300
+storage_levels = [
+    (1, 0),
+    (2, 400),
+    (4, 800),
+    (8, 2000),
+    (15, 5000),
+    (34, 16000),
+    (80, 48000),
+]
+def get_storage_cost(prod, em=False, hq=False):
+    base = 300
+    if em: base = 3000
+    if hq: base = 1500
+    if hq and em: base = 5000
+
+    for multi, cost in storage_levels:
+        if multi*base >= prod/60:
+            if em:
+                return int(cost/2)
+            else:
+                return cost
+    return 0

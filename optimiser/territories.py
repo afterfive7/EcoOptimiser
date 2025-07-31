@@ -36,22 +36,24 @@ def get_guild_territories(guild_prefix: str, hq: str):
         age = now - aq_time
         distance = territories[t]['distance']
 
+
         territories[t]['treasury'] = calc_treasury(age, distance)
         territories[t]['production'] = calc_production(territories[t])
         territories[t]['age'] = age
+        territories[t]['hq'] = (t == hq)
 
     return territories
 
 def calc_production(territory):
     production = {}
-    if 'treasury' in territory:
-        for res in resources:
+    for res in resources:
+        if 'treasury' in territory:
             production[res] = territory['resources'][res]*(1+territory['treasury'])
-    if 'upgrades' in territory:
-        for res in resources:
+        if 'upgrades' in territory:
             for upgrade, level in territory['upgrades'].items():
                 if res in upgrades[upgrade]["bonus_resources"]:
                     production[res] *= (1+upgrades[upgrade]['bonus'][level[0]][level[1]])
+        production[res] = round(production[res])
     return production
 
 

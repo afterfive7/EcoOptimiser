@@ -17,7 +17,7 @@ result = {"hq": hq, "territories": {}}
 
 for t, terr in terrs.items():
     result['territories'][t] = {
-        "treasury": terr['treasury'],
+        "treasury": territories.calc_treasury(terr['age'], 0),
         "upgrades": {
             "efficientResources": int(terr['upgrades']['Resources'][1]),
             "efficientEmeralds": int(terr['upgrades']['Emeralds'][1]),
@@ -34,5 +34,8 @@ print()
 # for res in ["emeralds", "ore", "crops", "fish", "wood"]:
 #     sum = 0
 #     for terr in terrs.values():
-#         sum += terr['production'][res]
+#         sum += int(terr['production'][res])
 #     print(f"{res}: {sum}")
+#
+# for t, terr in terrs.items():
+#     print(terr['production']['emeralds'])
