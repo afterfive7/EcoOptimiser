@@ -7,6 +7,9 @@ import copy
 # prefix = 'BFS'; hq = 'Azure Frontier'
 # prefix = None; hq = 'Cathedral Harbour'
 prefix = "ESI"; hq = 'Central Islands'
+
+
+
 ops = {
     "==": operator.eq,
     "!=": operator.ne,
@@ -42,6 +45,13 @@ def from_import(file):
         data = json.load(f)
     terrs = data["territories"]
     hq = data["hq"]
+    # Reset production because we are optimizing these duh...
+    for t in terrs.values():
+        for u in t["upgrades"]:
+            if u in ["emeraldRate", "efficientEmeralds", "resourceRate", "efficientResources"]:
+                t["upgrades"][u] = 0
+    terrs = territories.load_territories(terrs, hq)
+    main(terrs, hq)
 
 def main(terrs, hq):
     terrs = optimiser.optimise_upgrades(terrs)
@@ -62,7 +72,9 @@ def main(terrs, hq):
         json.dump(result, f, indent=4)
 
 
-from_api(prefix, hq)
+# from_api(prefix, hq)
+from_import("output.json")
+
 
 # for res in ["emeralds", "ore", "crops", "fish", "wood"]:
 #     sum = 0

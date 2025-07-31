@@ -60,14 +60,16 @@ def optimise_upgrades(territories):
             for e in range(nk['Emeralds'][1]):
                 bonus = int(pem*upgrades['Emeralds']['bonus'][r][e])
                 # ignore additional storage requirement from emerald usage. This seems to complex
-                storage_cost = get_storage_cost(pem + bonus, em=True, hq=(territory['distance']==0))
+                level = territory["upgrades"].get("emeraldStorage",0)
+                storage_cost = get_storage_cost(pem + bonus, em=True, hq=(territory['distance']==0), level=level)
                 if storage_cost > 0:
                     res_cost['wood'].append(storage_cost*x[t, 'Emeralds', r, e])
 
         for r in range(nk['Resources'][0]):
             for e in range(nk['Resources'][1]):
                 bonus = int(pmax*upgrades['Resources']['bonus'][r][e])
-                storage_cost = get_storage_cost(pmax + bonus, hq=(territory['distance']==0))
+                level = territory["upgrades"].get("resourceStorage",0)
+                storage_cost = get_storage_cost(pmax + bonus, hq=(territory['distance']==0), level=level)
                 if storage_cost > 0:
                     res_cost['emeralds'].append(storage_cost*x[t, 'Resources', r, e])
 
@@ -127,7 +129,7 @@ storage_levels = [
     (34, 16000),
     (80, 48000),
 ]
-def get_storage_cost(prod, em=False, hq=False):
+def get_storage_cost(prod, em=False, hq=False, level=0):
     base = 300
     if em: base = 3000
     if hq: base = 1500
@@ -135,8 +137,9 @@ def get_storage_cost(prod, em=False, hq=False):
 
     for multi, cost in storage_levels:
         if multi*base >= prod/60:
+            storage_cost = max(0, (cost-storage_levels[level][1]))
             if em:
-                return int(cost/2)
+                return int(storage_cost/2)
             else:
-                return cost
+                return int(storage_cost)
     return 0
