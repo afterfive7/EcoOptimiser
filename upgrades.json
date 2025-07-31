@@ -1,33 +1,86 @@
 {
-  "Emeralds": {
-    "costs" : [
-      [{}, {"ore": 2000}, {"ore": 8000}, {"ore": 32000}],
-      [{"crops": 2000}, {"crops": 2000, "ore": 2000}, {"crops": 2000, "ore": 8000}, {"crops": 2000, "ore": 32000}],
-      [{"crops": 8000}, {"crops": 8000, "ore": 2000}, {"crops": 8000, "ore": 8000}, {"crops": 8000, "ore": 32000}],
-      [{"crops": 32000}, {"crops": 32000, "ore": 2000}, {"crops": 32000, "ore": 8000}, {"crops": 32000, "ore": 32000}]
-    ],
-    "bonus_resources": ["emeralds"],
-    "bonus": [
-      [0, 0.35, 1.0, 3.0],
-      [0.3333333333333333, 0.8, 1.6666666666666665, 4.333333333333333],
-      [1.0, 1.7, 3.0, 7.0],
-      [3.0, 4.4, 7.0, 15.0]
-    ]
+  "damage": {
+    "resource": "ore",
+    "costs" : [100, 300, 600, 1200, 2400, 4800, 8400, 12000, 15600, 19200, 22800]
   },
-  "Resources": {
+  "attack": {
+    "resource": "crops",
+    "costs" : [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 15600, 19200, 22800]
+  },
+  "health": {
+    "resource": "wood",
+    "costs" : [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 15600, 19200, 22800]
+  },
+  "defence": {
+    "resource": "fish",
+    "costs" : [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 15600, 19200, 22800]
+  },
+  "minions": {
+    "resource": "wood",
+    "costs" : [0, 200, 400, 800, 1600]
+  },
+  "multi": {
+    "resource": "fish",
+    "costs" : [0, 4800]
+  },
+  "aura": {
+    "resource": "crops",
+    "costs" : [0, 800, 1600, 3200]
+  },
+  "volley": {
+    "resource": "ore",
+    "costs" : [0, 200, 400, 800]
+  },
+  "gatheringXp": {
+    "resource": "wood",
+    "costs" : [0, 600, 1300, 2000, 2700, 3400, 5500, 10000, 20000]
+  },
+  "mobXp": {
+    "resource": "fish",
+    "costs" : [0, 600, 1200, 1800, 2400, 3000, 5000, 10000, 20000]
+  },
+  "mobDamage": {
+    "resource": "crops",
+    "costs" : [0, 600, 1200, 1800, 2400, 3000, 5000, 10000, 20000]
+  },
+  "pvpDamage": {
+    "resource": "ore",
+    "costs" : [0, 600, 1200, 1800, 2400, 3000, 5000, 10000, 20000]
+  },
+  "xpSeeking": {
     "resource": "emeralds",
-    "costs" : [
-      [{}, {"emeralds": 6000}, {"emeralds": 12000}, {"emeralds": 24000}, {"emeralds": 48000}, {"emeralds": 96000}, {"emeralds": 192000}],
-      [{"emeralds": 2000}, {"emeralds": 8000}, {"emeralds": 14000}, {"emeralds": 26000}, {"emeralds": 50000}, {"emeralds": 98000}, {"emeralds": 194000}],
-      [{"emeralds": 8000}, {"emeralds": 14000}, {"emeralds": 20000}, {"emeralds": 32000}, {"emeralds": 56000}, {"emeralds": 104000}, {"emeralds": 200000}],
-      [{"emeralds": 32000}, {"emeralds": 38000}, {"emeralds": 44000}, {"emeralds": 56000}, {"emeralds": 80000}, {"emeralds": 128000}, {"emeralds": 224000}]
-    ],
-    "bonus_resources": ["ore", "crops", "fish", "wood"],
-    "bonus": [
-      [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0],
-      [0.3333333333333333, 1.0, 1.6666666666666665, 2.333333333333333, 3.0, 3.666666666666666, 4.333333333333333],
-      [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0],
-      [3.0, 5.0, 7.0, 9.0, 11.0, 13.0, 15.0]
-    ]
+    "costs" : [0, 100, 200, 400, 800, 1600, 3200, 6400, 9600, 12800]
+  },
+  "tomeSeeking": {
+    "resource": "fish",
+    "costs" : [0, 400, 3200, 6400]
+  },
+  "emeraldSeeking": {
+    "resource": "wood",
+    "costs" : [0, 200, 800, 1600, 3200, 6400]
+  },
+  "resourceStorage": {
+    "resource": "emeralds",
+    "costs" : [0, 400, 800, 2000, 5000, 16000, 48000]
+  },
+  "emeraldStorage": {
+    "resource": "wood",
+    "costs" : [0, 200, 400, 1000, 2500, 8000, 24000]
+  },
+  "efficientResources": {
+    "resource": "ore",
+    "costs" : [0, 6000, 12000, 24000, 48000, 96000, 192000]
+  },
+  "efficientEmeralds": {
+    "resource": "ore",
+    "costs" : [0, 2000, 8000, 32000]
+  },
+  "resourceRate": {
+    "resource": "emeralds",
+    "costs" : [0, 6000, 18000, 32000]
+  },
+  "emeraldRate": {
+    "resource": "crops",
+    "costs" : [0, 2000, 8000, 32000]
   }
 }

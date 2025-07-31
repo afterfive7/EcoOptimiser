@@ -1,0 +1,38 @@
+{
+  "hq": {
+    "condition": {
+      "variable": ["distance"],
+      "op": "==",
+      "value": 0
+    },
+    "upgrades": {
+      "damage":9,"attack":9,"health":9,"defence":9,"minions":4,"multi":1,"aura":3,"volley":3,"resourceStorage":6,"emeraldStorage":6
+    }
+  },
+  "conn": {
+    "condition": {
+      "variable": ["distance"],
+      "op": "==",
+      "value": 1
+    },
+    "upgrades": {
+      "damage":5,"attack":4,"health":5,"defence":5,"minions":0,"multi":0,"aura":1,"volley":3
+    }
+  },
+  "city": {
+    "condition": {
+      "variable": ["resources", "emeralds"],
+      "op": ">=",
+      "value": 18000
+    },
+    "upgrades": {
+      "damage":5,"attack":4,"health":5,"defence":5,"minions":0,"multi":0,"aura":1,"volley":3
+    }
+  },
+  "med": {
+    "condition": {},
+    "upgrades": {
+      "damage":2,"attack":2,"health":3,"defence":2,"minions":0,"multi":0,"aura":1,"volley":1
+    }
+  }
+}

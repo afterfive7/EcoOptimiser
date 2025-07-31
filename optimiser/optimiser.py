@@ -1,9 +1,15 @@
 from ortools.linear_solver import pywraplp
 import numpy as np
+import json
 
-resources = ['emeralds'] + ["ore", "crops", "fish", "wood"]
+resources = ['emeralds'] + ["ore", "wood", "fish", "crops"]
 
-def optimise_upgrades(territories, upgrades):
+with open('resource_upgrades.json') as f:
+    upgrades = json.load(f)
+with open('upgrades.json') as f:
+    upgrade_costs = json.load(f)
+
+def optimise_upgrades(territories):
     solver = pywraplp.Solver.CreateSolver("SCIP")
     solver.SetNumThreads(6)
     if not solver:
@@ -46,7 +52,7 @@ def optimise_upgrades(territories, upgrades):
                             if cost > 0:
                                 res_cost[res].append(cost*x[t, u, r, e])
 
-        # Calculate caused by storage requirements
+        # Calculate cost caused by storage requirements
         pem = territory['production']['emeralds']
         pmax = max(territory['production'][res] for res in resources[1::])
 
@@ -54,29 +60,33 @@ def optimise_upgrades(territories, upgrades):
             for e in range(nk['Emeralds'][1]):
                 bonus = int(pem*upgrades['Emeralds']['bonus'][r][e])
                 # ignore additional storage requirement from emerald usage. This seems to complex
-                storage_cost = get_storage_cost(pem + bonus, em=True, hq=territory['hq'])
+                storage_cost = get_storage_cost(pem + bonus, em=True, hq=(territory['distance']==0))
                 if storage_cost > 0:
                     res_cost['wood'].append(storage_cost*x[t, 'Emeralds', r, e])
 
         for r in range(nk['Resources'][0]):
             for e in range(nk['Resources'][1]):
                 bonus = int(pmax*upgrades['Resources']['bonus'][r][e])
-                storage_cost = get_storage_cost(pmax + bonus, hq=territory['hq'])
+                storage_cost = get_storage_cost(pmax + bonus, hq=(territory['distance']==0))
                 if storage_cost > 0:
                     res_cost['emeralds'].append(storage_cost*x[t, 'Resources', r, e])
 
+        # Add costs for additional upgrades
+        for u,v in territory['upgrades'].items():
+            res = upgrade_costs[u]["resource"]
+            cost = upgrade_costs[u]['costs'][v]
+            res_cost[res].append(cost)
 
     res_prod_sum = {}
     res_cost_sum = {}
     for res in resources:
         res_prod_sum[res] = solver.Sum(res_prod[res])
         res_cost_sum[res] = solver.Sum(res_cost[res])
-        solver.Add(res_prod_sum[res] >= res_cost_sum[res] + 25000)
+        solver.Add(res_prod_sum[res] >= res_cost_sum[res])
         # solver.Add(res_prod_sum[res] <= solver.Sum([res_cost_sum[res], 100000]))
 
 
-
-    # Objective: maximize total boosted resource production
+    # Objective: maximize total boosted resource production with weights
     tot_sum = []
     weights = {'emeralds':0, "ore":8, "crops":15, "fish":12, "wood":7}
     for res in resources:
@@ -91,16 +101,13 @@ def optimise_upgrades(territories, upgrades):
 
     if status == pywraplp.Solver.OPTIMAL:
         print("✅ Optimal solution found.")
-        # print(f"emeralds prod: {em_prod_sum.solution_value()}, cost: {em_cost_sum.solution_value()}")
         for res in resources:
             print(f"{res} prod: {res_prod_sum[res].solution_value()}, cost: {res_cost_sum[res].solution_value()}")
-        for t, terr in territories.items():
-            # print(t)
-            terr['upgrades'] = {}
-            for u in upgrades:
+        for t in territories:
+            for u, upgrade in upgrades.items():
                 sol = np.array([[x[t, u, r, e].solution_value() for e in range(nk[u][1])] for r in range(nk[u][0])])
-                terr['upgrades'][u] = np.argwhere(sol == 1)[0]
-                # print("   ", u, [x[t, u, l].solution_value() for l in range(nk[u])].index(1))
+                for i, ut in enumerate(upgrade["upgrades"]):
+                    territories[t]['upgrades'][ut] = int(np.argwhere(sol == 1)[0][i])
     else:
         print("❌ No optimal solution found.")
 
