@@ -97,7 +97,7 @@ def optimise_upgrades(territories):
 
     # Objective: maximize total boosted resource production with weights
     tot_sum = []
-    weights = {'emeralds':0, "ore":6, "crops":15, "fish":12, "wood":6}
+    weights = {'emeralds':0, "ore":6, "crops":15, "fish":12, "wood":4}
     for res in resources:
         tot_sum.append(res_prod_sum[res]*weights[res] - res_cost_sum[res]*weights[res])
     objective = solver.Sum(tot_sum)
@@ -113,9 +113,6 @@ def optimise_upgrades(territories):
         for res in resources:
             print(f"{res} prod: {res_prod_sum[res].solution_value()}, cost: {res_cost_sum[res].solution_value()}")
         for t in territories:
-            print(t)
-            for res in ['ore']:
-                print(res, solver.Sum(terr_cost[t][res]).solution_value())
             for u, upgrade in upgrades.items():
                 sol = np.array([[x[t, u, r, e].solution_value() for e in range(nk[u][1])] for r in range(nk[u][0])])
                 for i, ut in enumerate(upgrade["upgrades"]):
