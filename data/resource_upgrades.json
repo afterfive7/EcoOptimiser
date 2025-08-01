@@ -20,8 +20,8 @@
     "resource": "emeralds",
     "costs" : [
       [{}, {"emeralds": 6000}, {"emeralds": 12000}, {"emeralds": 24000}, {"emeralds": 48000}, {"emeralds": 96000}, {"emeralds": 192000}],
-      [{"emeralds": 2000}, {"emeralds": 8000}, {"emeralds": 14000}, {"emeralds": 26000}, {"emeralds": 50000}, {"emeralds": 98000}, {"emeralds": 194000}],
-      [{"emeralds": 8000}, {"emeralds": 14000}, {"emeralds": 20000}, {"emeralds": 32000}, {"emeralds": 56000}, {"emeralds": 104000}, {"emeralds": 200000}],
+      [{"emeralds": 6000}, {"emeralds": 12000}, {"emeralds": 18000}, {"emeralds": 30000}, {"emeralds": 54000}, {"emeralds": 102000}, {"emeralds": 198000}],
+      [{"emeralds": 18000}, {"emeralds": 24000}, {"emeralds": 30000}, {"emeralds": 42000}, {"emeralds": 66000}, {"emeralds": 114000}, {"emeralds": 210000}],
       [{"emeralds": 32000}, {"emeralds": 38000}, {"emeralds": 44000}, {"emeralds": 56000}, {"emeralds": 80000}, {"emeralds": 128000}, {"emeralds": 224000}]
     ],
     "bonus_resources": ["ore", "crops", "fish", "wood"],

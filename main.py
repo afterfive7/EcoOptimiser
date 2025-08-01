@@ -7,5 +7,5 @@ prefix = "ESI"; hq = 'Central Islands'
 
 
 
-main.from_api(prefix, hq)
-# main.from_import("output.json")
+# main.from_api(prefix, hq)
+main.from_import("input.json")
