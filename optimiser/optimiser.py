@@ -114,7 +114,7 @@ def optimise_upgrades(territories):
 
     res_prod_sum = {}
     res_cost_sum = {}
-    extra_surplus = {'emeralds':0, "ore":0, "crops":0, "fish":0, "wood":0}
+    extra_surplus = {'emeralds':2000, "ore":25000, "crops":25000, "fish":25000, "wood":25000}
     for res in resources:
         res_prod_sum[res] = solver.Sum(res_prod[res])
         res_cost_sum[res] = solver.Sum(res_cost[res])
@@ -125,12 +125,12 @@ def optimise_upgrades(territories):
     # Objective: maximize total boosted resource production with weights
     tot_sum = []
     # weights = {'emeralds':0, "ore":6, "crops":15, "fish":12, "wood":4}
-    weights = {'emeralds':0, "ore":1,  "crops":1, "fish":1, "wood":1}
+    weights = {'emeralds':0, "ore":1,  "crops":3, "fish":3, "wood":1}
     for res in resources:
         tot_sum.append(res_prod_sum[res]*weights[res] - res_cost_sum[res]*weights[res])
     objective = solver.Sum(tot_sum)
 
-    print("starting optimization")
+    print("starting optimisation")
 
     solver.Maximize(objective)
 
@@ -148,6 +148,7 @@ def optimise_upgrades(territories):
                 sol = np.array([[x[u, c, g, r, e].solution_value() for e in range(nk[u][1])] for r in range(nk[u][0])])
                 for i, ut in enumerate(upgrade["upgrades"]):
                     territories[t]['upgrades'][ut] = int(np.argwhere(sol == 1)[0][i])
+                    # I should also do storage upgrades here
     else:
         print("❌ No optimal solution found.")
         print(status)
