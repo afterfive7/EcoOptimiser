@@ -11,7 +11,7 @@ Also, so far I've mainly focussed on the optimiser itself, but I will make this 
 ---
 ## How to use:
 
-To use the optimiser, you need python3 and some packages (imaging a list here).
+To use the optimiser, you need python3 and some packages (imagine a list here).
 
 Then just run it by running the main.py file. This is also where you (will) configure most options.
 
