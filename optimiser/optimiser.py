@@ -34,7 +34,8 @@ def optimise_upgrades(territories):
                 category_counter[u].append([])
             index = categories[u].index(c)
             territories[t]['categories'][u]['index'] = index
-            # grouping in groups with sizes following fibonacci!!!
+            # Grouping in groups with sizes following fibonacci!!!
+            # If you're interested, look up the Zeckendorf theorem.
             # 1,1,2,3,5,8,13,21,34
             groups = category_counter[u][index]
             if len(groups) <= 2:

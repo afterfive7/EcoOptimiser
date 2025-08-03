@@ -53,7 +53,7 @@ def main(terrs, hq):
         t['production'] = territories.calc_production(t)
 
 
-    result = {"hq": hq, "territories": {}}
+    result = {"hq": hq, "territories": {}, "tributes":{"emeralds":0,"ore":0,"wood":0,"fish":0,"crops":0}}
 
     for t, terr in terrs.items():
         result['territories'][t] = {
