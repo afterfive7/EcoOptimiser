@@ -8,7 +8,7 @@ resources = ["emeralds", "ore", "wood", "fish", "crops"]
 with open('data/resource_upgrades.json') as f:
     upgrades = json.load(f)
 
-def get_guild_territories(guild_prefix: str, hq: str):
+def get_guild_territories(guild_prefix: str, hq: str, force_tres=None):
     url = 'https://api.wynncraft.com/v3/guild/list/territory'
     r = requests.get(url)
     data = r.json()
@@ -20,6 +20,8 @@ def get_guild_territories(guild_prefix: str, hq: str):
             aq_time = parser.parse(v['acquired'])
             age = now - aq_time
             territories[k] = {"treasury": get_treasury_level(age)}
+            if force_tres is not None:
+                territories[k] = {"treasury": force_tres}
             territories[k]['upgrades'] = {}
 
     return territories

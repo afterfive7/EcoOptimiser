@@ -6,10 +6,11 @@ resources = ['emeralds'] + ["ore", "wood", "fish", "crops"]
 
 extra_surplus = {'emeralds':0, "ore":0, "crops":0, "fish":0, "wood":0}
 weights = {'emeralds':0, "ore":1,  "crops":1, "fish":1, "wood":1}
+num_threads = 6
 
 def optimise_upgrades(territories):
     solver = pywraplp.Solver.CreateSolver("SCIP")
-    solver.SetNumThreads(6)
+    solver.SetNumThreads(num_threads)
     if not solver:
         raise RuntimeError("Solver not created.")
 

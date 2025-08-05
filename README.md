@@ -6,7 +6,7 @@ This program optimises the production of your territories given certain weights 
 I was able to run the entire maps eco in ~10 sec on my laptop, so as long as you're not using a toaster, 
 this should work for pretty much any use case.
 
-Also, so far I've mainly focussed on the optimiser itself, but I will make this more user friendly.
+I've pregenerated some example ecos, however, theses do not have a lot of thought put behind them so I recommend doing your own.
 
 ---
 ## How to use:

@@ -11,8 +11,9 @@ ops = {
     "<=": operator.le
 }
 
-def from_api(prefix, hq, presets_file):
-    terrs = territories.get_guild_territories(prefix, hq)
+
+def from_api(prefix, hq, presets_file, force_tres=None):
+    terrs = territories.get_guild_territories(prefix, hq, force_tres=force_tres)
     terrs = territories.load_territories(terrs, hq)
 
     with open(presets_file) as f:
