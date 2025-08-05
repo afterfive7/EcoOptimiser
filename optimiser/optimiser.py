@@ -4,6 +4,8 @@ import json
 
 resources = ['emeralds'] + ["ore", "wood", "fish", "crops"]
 
+extra_surplus = {'emeralds':0, "ore":0, "crops":0, "fish":0, "wood":0}
+weights = {'emeralds':0, "ore":1,  "crops":1, "fish":1, "wood":1}
 
 def optimise_upgrades(territories):
     solver = pywraplp.Solver.CreateSolver("SCIP")
@@ -115,7 +117,6 @@ def optimise_upgrades(territories):
 
     res_prod_sum = {}
     res_cost_sum = {}
-    extra_surplus = {'emeralds':2000, "ore":25000, "crops":25000, "fish":25000, "wood":25000}
     for res in resources:
         res_prod_sum[res] = solver.Sum(res_prod[res])
         res_cost_sum[res] = solver.Sum(res_cost[res])
@@ -125,8 +126,6 @@ def optimise_upgrades(territories):
 
     # Objective: maximize total boosted resource production with weights
     tot_sum = []
-    # weights = {'emeralds':0, "ore":6, "crops":15, "fish":12, "wood":4}
-    weights = {'emeralds':0, "ore":1,  "crops":3, "fish":3, "wood":1}
     for res in resources:
         tot_sum.append(res_prod_sum[res]*weights[res] - res_cost_sum[res]*weights[res])
     objective = solver.Sum(tot_sum)

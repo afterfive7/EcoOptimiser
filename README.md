@@ -27,5 +27,4 @@ to your territories, depending on conditions like the distance from HQ, etc. I d
 2. Choose territories and upgrades on again [**this website**](https://fa-rog.github.io/economy/) and export. 
 This can be used as an input for the program.
 
-Some more options that haven't been made easily accessible yet are individual weights, 
-by which the optimiser should prioritize bonus resources and surplus supplies of each resource that you want.
+Additionally, you can set custom weights and required surpluses to fine tune your eco.

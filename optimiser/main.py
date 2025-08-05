@@ -10,13 +10,13 @@ ops = {
     "<": operator.lt,
     "<=": operator.le
 }
-with open('data/presets.json') as f:
-    presets = json.load(f)
 
-def from_api(prefix, hq):
+def from_api(prefix, hq, presets_file):
     terrs = territories.get_guild_territories(prefix, hq)
     terrs = territories.load_territories(terrs, hq)
 
+    with open(presets_file) as f:
+        presets = json.load(f)
     # Using presets to set territory defenses
     for t in terrs.values():
         for preset in presets.values():
@@ -33,8 +33,8 @@ def from_api(prefix, hq):
                 break
     main(terrs, hq)
 
-def from_import(file):
-    with open(file) as f:
+def from_import(import_file):
+    with open(import_file) as f:
         data = json.load(f)
     terrs = data["territories"]
     hq = data["hq"]
