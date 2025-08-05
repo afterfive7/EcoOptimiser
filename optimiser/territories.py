@@ -50,16 +50,12 @@ def calc_production(territory):
     production = {}
     for res in resources:
         production[res] = territory['resources'][res]*(1+territory['treasury_bonus'])
-        # if 'upgrades' in territory:
-        #     for upgrade in upgrades.values():
-        #         if res in upgrade["bonus_resources"]:
-        #             for i, ut in enumerate(upgrade['upgrades']):
-        #                 if ut in territory['upgrades']:
-        #                     production[res] *= (1+upgrades[upgrade]['bonus'][level[0]][level[1]])
-        #
-        #     for upgrade, level in territory['upgrades'].items():
-        #         if res in upgrades[upgrade]["bonus_resources"]:
-        #             production[res] *= (1+upgrades[upgrade]['bonus'][level[0]][level[1]])
+        for upgrade in upgrades.values():
+            if res in upgrade["bonus_resources"]:
+                x = upgrade['bonus']
+                for u in upgrade['upgrades']:
+                    x = x[territory['upgrades'].get(u,0)]
+                production[res] *= 1+x
         production[res] = round(production[res])
     return production
 
@@ -101,3 +97,19 @@ def calc_treasury(level, distance):
     return (1 - (distance-2)*0.15)*level
 # treasury: 1h, 1d, 5d, 12d, levels: 0, 10%, 20%, 25%, 30%
 # distance bonus: 10%, 10%, 10%, 8.5%, 7%, 5.5%, 4%
+
+storage_multis = [1, 2, 4, 8, 15, 34, 80]
+def calc_storage_level(prod, res, hq):
+    em = False
+    if res == "Emeralds":
+        em = True
+    base = 300
+    if em: base = 3000
+    if hq: base = 1500
+    if hq and em: base = 5000
+
+    for i, multi in enumerate(storage_multis):
+        if multi*base >= prod/60:
+            return i
+    return 0
+

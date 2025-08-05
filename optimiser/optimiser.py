@@ -149,7 +149,7 @@ def optimise_upgrades(territories):
                 sol = np.array([[x[u, c, g, r, e].solution_value() for e in range(nk[u][1])] for r in range(nk[u][0])])
                 for i, ut in enumerate(upgrade["upgrades"]):
                     territories[t]['upgrades'][ut] = int(np.argwhere(sol == 1)[0][i])
-                    # I should also do storage upgrades here
+
     else:
         print("❌ No optimal solution found.")
         print(status)

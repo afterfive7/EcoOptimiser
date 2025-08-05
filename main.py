@@ -1,12 +1,12 @@
 from optimiser import main, optimiser
 
 # prefix = 'SEQ'; hq = 'Bloody Trail'
-prefix = None; hq = 'Cathedral Harbour'
+# prefix = None; hq = 'Cathedral Harbour'
 # prefix = "ESI"; hq = 'Central Islands'
-# prefix = "AVO"; hq = 'Mine Base Plains'
+prefix = "AVO"; hq = 'Mine Base Plains'
 
 weights = {'emeralds':0, "ore":1,  "crops":1, "fish":1, "wood":1}
-x = 500000
+x = 5000
 extra_surplus = {'emeralds':2000, "ore":x, "crops":x, "fish":x, "wood":x}
 presets_file = 'data/presets.json'
 input_file = 'input.json'

@@ -28,3 +28,4 @@ to your territories, depending on conditions like the distance from HQ, etc. I d
 This can be used as an input for the program.
 
 Additionally, you can set custom weights and required surpluses to fine tune your eco.
+In order to run faster, the program uses multithreading. The number of threads can be set.

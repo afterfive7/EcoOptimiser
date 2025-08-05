@@ -51,7 +51,11 @@ def main(terrs, hq):
     terrs = optimiser.optimise_upgrades(terrs)
 
     for t in terrs.values():
-        t['production'] = territories.calc_production(t)
+        prod = territories.calc_production(t)
+        ishq = t['distance'] == 0
+        t['production'] = prod
+        t['upgrades']['resourceStorage'] = max(territories.calc_storage_level(max(list(prod.values())[1::]), 'Resources', ishq), t['upgrades'].get('resourceStorage', 0))
+        t['upgrades']['emeraldStorage'] = max(territories.calc_storage_level(prod['emeralds'], 'Emeralds', ishq), t['upgrades'].get('emeraldStorage',0))
 
 
     result = {"hq": hq, "territories": {}, "tributes":{"emeralds":0,"ore":0,"wood":0,"fish":0,"crops":0}}
