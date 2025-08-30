@@ -15,23 +15,23 @@ ops = {
 def from_api(prefix, hq, presets_file, force_tres=None):
     terrs = territories.get_guild_territories(prefix, hq, force_tres=force_tres)
     terrs = territories.load_territories(terrs, hq)
-
-    with open(presets_file) as f:
-        presets = json.load(f)
     # Using presets to set territory defenses
-    for t in terrs.values():
-        for preset in presets.values():
-            if preset["condition"] == {}:
-                t["upgrades"] = preset["upgrades"].copy()
-                break
-            field = t
-            for v in preset["condition"]["variable"]:
-                field = field[v]
-            op = preset["condition"]["op"]
-            value = preset["condition"]["value"]
-            if ops[op](field, value):
-                t["upgrades"] = preset["upgrades"].copy()
-                break
+    if presets_file is not None:
+        with open(presets_file) as f:
+            presets = json.load(f)
+        for t in terrs.values():
+            for preset in presets.values():
+                if preset["condition"] == {}:
+                    t["upgrades"] = preset["upgrades"].copy()
+                    break
+                field = t
+                for v in preset["condition"]["variable"]:
+                    field = field[v]
+                op = preset["condition"]["op"]
+                value = preset["condition"]["value"]
+                if ops[op](field, value):
+                    t["upgrades"] = preset["upgrades"].copy()
+                    break
     main(terrs, hq)
 
 def from_import(import_file):
