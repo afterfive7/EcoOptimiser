@@ -28,4 +28,5 @@ to your territories, depending on conditions like the distance from HQ, etc. I d
 This can be used as an input for the program.
 
 Additionally, you can set custom weights and required surpluses to fine tune your eco.
-In order to run faster, the program uses multithreading. The number of threads can be set.
+In order to run faster, the program uses multithreading. The number of threads can be set using `num_threads`.
+However, at the moment there seems to be a ORTools bug for Windows users if you use multithreading, so if the program doesn't work for you, set it back to 1.

@@ -12,7 +12,7 @@ ops = {
 }
 
 
-def from_api(prefix, hq, presets_file, force_tres=None):
+def from_api(prefix, hq, presets_file=None, force_tres=None):
     terrs = territories.get_guild_territories(prefix, hq, force_tres=force_tres)
     terrs = territories.load_territories(terrs, hq)
     # Using presets to set territory defenses
