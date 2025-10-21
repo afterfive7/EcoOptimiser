@@ -127,9 +127,15 @@ def optimise_upgrades(territories):
 
     # Objective: maximize total boosted resource production with weights
     tot_sum = []
-    for res in resources:
+    for res in resources[1:]:
         tot_sum.append(res_prod_sum[res]*weights[res] - res_cost_sum[res]*weights[res])
-    objective = solver.Sum(tot_sum)
+    # objective = solver.Sum(tot_sum)
+    # Objective: maximize min prod value
+    min_var = solver.IntVar(0, 2**30, f"x_min")
+    for res_amt in tot_sum:
+        solver.Add(min_var <= res_amt)
+    objective = min_var * 5 + solver.Sum(tot_sum)
+
 
     print("starting optimisation")
 
@@ -139,6 +145,8 @@ def optimise_upgrades(territories):
 
     if status == pywraplp.Solver.OPTIMAL:
         print("✅ Optimal solution found.")
+        print(f"min var: {min_var.solution_value()}")
+        print(f"objective: {objective.solution_value()}")
         for res in resources:
             print(f"{res} prod: {res_prod_sum[res].solution_value()}, cost: {res_cost_sum[res].solution_value()}")
         for t in territories:
