@@ -1,4 +1,5 @@
-from optimizer import main, optimizer
+from optimizer import main
+from optimizer import optimizer2 as optimizer
 
 # prefix = 'SEQ'; hq = 'Bloody Trail'
 # prefix = None; hq = 'Cathedral Harbour'
@@ -18,7 +19,7 @@ optimizer.extra_surplus = extra_surplus
 optimizer.weights = weights
 optimizer.num_threads = num_threads
 
-main.from_api(prefix, hq, presets_file=presets_file, force_tres=force_tres)
+main.from_api(prefix, hq, presets_file=presets_file, force_tres=force_tres, optimizer=optimizer)
 # main.from_api(prefix, hq)
 
 # input_file = 'input.json'

@@ -1,4 +1,4 @@
-from optimizer import optimizer, territories
+from optimizer import territories
 import json
 import operator
 
@@ -12,7 +12,9 @@ ops = {
 }
 
 
-def from_api(prefix, hq, presets_file=None, force_tres=None):
+def from_api(prefix, hq, presets_file=None, force_tres=None, optimizer=None):
+    if optimizer is None:
+        from optimizer import optimizer
     terrs = territories.get_guild_territories(prefix, hq, force_tres=force_tres)
     terrs = territories.load_territories(terrs, hq)
     # Using presets to set territory defenses
@@ -32,9 +34,11 @@ def from_api(prefix, hq, presets_file=None, force_tres=None):
                 if ops[op](field, value):
                     t["upgrades"] = preset["upgrades"].copy()
                     break
-    main(terrs, hq)
+    main(terrs, hq, optimizer)
 
-def from_import(import_file):
+def from_import(import_file, optimizer=None):
+    if optimizer is None:
+        from optimizer import optimizer
     with open(import_file) as f:
         data = json.load(f)
     terrs = data["territories"]
@@ -45,9 +49,9 @@ def from_import(import_file):
             if u in ["emeraldRate", "efficientEmeralds", "resourceRate", "efficientResources"]:
                 t["upgrades"][u] = 0
     terrs = territories.load_territories(terrs, hq)
-    main(terrs, hq)
+    main(terrs, hq, optimizer)
 
-def main(terrs, hq):
+def main(terrs, hq, optimizer):
     terrs = optimizer.optimize_upgrades(terrs)
 
     for t in terrs.values():
