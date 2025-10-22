@@ -6,7 +6,7 @@ resources = ['emeralds'] + ["ore", "wood", "fish", "crops"]
 extra_surplus = {'emeralds':0, "ore":0, "crops":0, "fish":0, "wood":0}
 weights = {'emeralds':0, "ore":1,  "crops":1, "fish":1, "wood":1}
 num_threads = 6
-balance = 15
+balance = 1.5
 
 def prod_hash(res, prods):
     return "".join([r[0] + str(p) for r, p in zip(res, prods)])
@@ -97,6 +97,7 @@ def optimize_upgrades(territories):
     prod_sum = {}
     cost_sum = {}
     yields = []
+    weighted_yields = []
     for res in resources:
         prod_sum[res] = sum(prods[res]) + base_prods[res]
         cost_sum[res] = sum(costs[res]) + base_costs[res] + extra_surplus[res]
@@ -104,13 +105,14 @@ def optimize_upgrades(territories):
         model.Add(prod_sum[res] >= cost_sum[res])
         if res != 'emeralds':
             yields.append(prod_sum[res] - cost_sum[res])
+            weighted_yields.append((prod_sum[res] - cost_sum[res]) * round(weights[res] * 10))
 
     min_yield = model.NewIntVar(0, 2**20, "min_yield")
     # model.AddMinEquality(min_yield, yields)
     for y in yields:
         model.Add(min_yield <= y)
 
-    objective = (min_yield * balance + 10 * sum(yields)) * 10000 + (prod_sum['emeralds'] - cost_sum['emeralds'])
+    objective = (min_yield * round(balance * 10) + sum(weighted_yields)) * 10000 + (prod_sum['emeralds'] - cost_sum['emeralds'])
     model.Maximize(objective)
 
 
