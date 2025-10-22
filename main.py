@@ -18,6 +18,7 @@ num_threads = 10
 optimizer.extra_surplus = extra_surplus
 optimizer.weights = weights
 optimizer.num_threads = num_threads
+optimizer.balance = 15 # tradeoff between min(yields) and sum(yields), higher values take longer but lead to more balanced yields
 
 main.from_api(prefix, hq, presets_file=presets_file, force_tres=force_tres, optimizer=optimizer)
 # main.from_api(prefix, hq)
