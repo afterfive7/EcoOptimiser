@@ -106,7 +106,7 @@ def optimize_upgrades(territories):
                             if u == "Emeralds":
                                 res_cost['wood'].append(storage_cost*x[u, c, g, r, e])
                             else:
-                                res_cost['wood'].append(storage_cost*x[u, c, g, r, e])
+                                res_cost['emeralds'].append(storage_cost*x[u, c, g, r, e])
 
     # Add costs for additional upgrades
     for territory in territories.values():
