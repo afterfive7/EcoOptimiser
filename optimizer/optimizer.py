@@ -8,8 +8,8 @@ extra_surplus = {'emeralds':0, "ore":0, "crops":0, "fish":0, "wood":0}
 weights = {'emeralds':0, "ore":1,  "crops":1, "fish":1, "wood":1}
 num_threads = 6
 
-def optimise_upgrades(territories):
-    solver = pywraplp.Solver.CreateSolver("SCIP")
+def optimize_upgrades(territories):
+    solver = pywraplp.Solver.CreateSolver("SAT")
     solver.SetNumThreads(num_threads)
     if not solver:
         raise RuntimeError("Solver not created.")
@@ -134,7 +134,7 @@ def optimise_upgrades(territories):
     min_var = solver.IntVar(0, 2**30, f"x_min")
     for res_amt in tot_sum:
         solver.Add(min_var <= res_amt)
-    objective = min_var * 5 + solver.Sum(tot_sum)
+    objective = min_var * 3 + solver.Sum(tot_sum)
 
 
     print("starting optimisation")

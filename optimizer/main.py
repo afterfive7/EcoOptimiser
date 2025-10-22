@@ -1,4 +1,4 @@
-from optimiser import optimiser, territories
+from optimizer import optimizer, territories
 import json
 import operator
 
@@ -48,7 +48,7 @@ def from_import(import_file):
     main(terrs, hq)
 
 def main(terrs, hq):
-    terrs = optimiser.optimise_upgrades(terrs)
+    terrs = optimizer.optimize_upgrades(terrs)
 
     for t in terrs.values():
         prod = territories.calc_production(t)
