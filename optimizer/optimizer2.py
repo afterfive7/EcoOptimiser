@@ -96,23 +96,22 @@ def optimize_upgrades(territories):
 
     prod_sum = {}
     cost_sum = {}
-    yields = []
-    weighted_yields = []
+    yields = {}
+    weighted_yields = {}
     for res in resources:
         prod_sum[res] = sum(prods[res]) + base_prods[res]
         cost_sum[res] = sum(costs[res]) + base_costs[res] + extra_surplus[res]
 
-        model.Add(prod_sum[res] >= cost_sum[res])
-        if res != 'emeralds':
-            yields.append(prod_sum[res] - cost_sum[res])
-            weighted_yields.append((prod_sum[res] - cost_sum[res]) * round(weights[res] * 10))
+        y = prod_sum[res] - cost_sum[res]
+        model.Add(y >= 0)
+        yields[res] = y
+        weighted_yields[res] = y * round(weights[res] * 100)
 
     min_yield = model.NewIntVar(0, 2**20, "min_yield")
-    # model.AddMinEquality(min_yield, yields)
-    for y in yields:
-        model.Add(min_yield <= y)
+    for res in resources[1:]:# ignore emerald yield for balancing
+        model.Add(min_yield <= yields[res])
 
-    objective = (min_yield * round(balance * 10) + sum(weighted_yields)) * 10000 + (prod_sum['emeralds'] - cost_sum['emeralds'])
+    objective = (min_yield * round(balance * 100) + sum(weighted_yields.values())) * 10000 + yields['emeralds']
     model.Maximize(objective)
 
 
